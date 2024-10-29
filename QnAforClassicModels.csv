@@ -1,0 +1,27 @@
+QUESTION;ANSWER;LEVEL
+Show all the data in the OFFICES table.;select * from OFFICES;1
+Show any 1 row in the OFFICES table, but only 1 row and no more.;select * from OFFICES limit 1;1
+Show all the data in the OFFICES table in decreasing order of CITY value.;select * from OFFICES order by CITY desc;1
+For every row in the OFFICES table, show the CITY value and associated COUNTRY value.;select CITY, COUNTRY from OFFICES;1
+Show the CUSTOMERNUMBER value of every row in the CUSTOMERS table but only for rows with a COUNTRY value of '????'.;select CUSTOMERNUMBER from CUSTOMERS where COUNTRY = '????';1
+Show the PHONE values of every row in the CUSTOMERS table that has its STATE value missing.;select PHONE from CUSTOMERS where STATE is not null;1
+Find how many rows there are in the OFFICES table.;select count(*) from OFFICES;1
+Find the greatest CREDITLIMIT value in the CUSTOMERS table.;select max(CREDITLIMIT) from CUSTOMERS;1
+Show the CUSTOMERNUMBER and CUSTOMERNAME values of every row in the CUSTOMERS table, but only for rows with a CUSTOMERNAME value that has the character 'D' as the 3rd or 4th character of that CUSTOMERNAME.;select CUSTOMERNUMBER, CUSTOMERNAME from CUSTOMERS where CUSTOMERNAME like '__D%' or CUSTOMERNAME like '___D%';2
+Show the CUSTOMERNUMBER and CUSTOMERNAME values of every row in the CUSTOMERS table, but only for rows with a CUSTOMERNAME value that includes the string '????' somewhere.;select CUSTOMERNUMBER, CUSTOMERNAME from CUSTOMERS where CUSTOMERNAME like '%????%';2
+Show the PRODUCTCODE and BUYPRICE and value added tax (vat) associated with every row in the PRODUCTS table: the vat is 15 percent of the BUYPRICE so e.g. if the BUYPRICE is 100 then the vat is 15. Call the third column of your result vat. Make sure that the vat is rounded to show exactly 2 decimal places.;select PRODUCTCODE, BUYPRICE, round(BUYPRICE * 0.15,2) as vat from products;2
+Show all rows in the OFFICES table but only for CITY values 'UK' and 'USA'.;select * from OFFICES where POSTALCODE = 'UK' or  POSTALCODE = 'USA';2
+Find the average BUYPRICE in the PRODUCTS table.;select avg(BUYPRICE) from PRODUCTS;2
+Find the total of all the QUANTITYORDERED values in the ORDERDETAILS table.;select sum(QUANTITYORDERED) from ORDERDETAILS;2
+Show all the CITY values in the CUSTOMERS table, but make sure that no CITY value is repeated in the result.;select distinct CITY from CUSTOMERS;2
+Find how many CITY values exist in the CUSTOMERS table (i.e. if we were to list each CITY value in CUSTOMERS exactly once, how many CITY values would that be).;select count(distinct CITY) from CUSTOMERS;2
+Show the CUSTOMERNUMBER value of every row in the CUSTOMERS table but only for rows that have a CREDITLIMIT value that is the smallest CREDITLIMIT value in the table.;select CUSTOMERNUMBER from CUSTOMERS where CREDITLIMIT = (select max(CREDITLIMIT) from CUSTOMERS);3
+Show each CITY in the CUSTOMERS table along with how many CUSTOMERNUMBERS are associated with that CITY in the CUSTOMERS table.;select CITY, count(*) from CUSTOMERS group by CITY;3
+Show each CITY in the CUSTOMERS table along with how many CUSTOMERNUMBERS are associated with that CITY in the CUSTOMERS table, but only for CITY values that appear at least 8 times in the CUSTOMERS table.;select CITY,count(*) from CUSTOMERS group by CITY having count(*) >7;3
+Show each CITY in the CUSTOMERS table along with how many CUSTOMERNUMBERS are associated with that CITY in the CUSTOMERS table, but only for CUSTOMERS rows with a COUNTRY value of 'USA'.;select CITY, count(*) from CUSTOMERS where COUNTRY = 'USA' group by CITY;3
+Show each CITY in the CUSTOMERS table along with how many CUSTOMERNUMBERS are associated with that CITY in the CUSTOMERS table, but only for CUSTOMERS rows with a COUNTRY value of 'USA' and only for CITY values that appear at least 2 times in the CUSTOMERS table.;select CITY, count(*) from CUSTOMERS where COUNTRY = 'USA' group by CITY having count(*) > 1;3
+Show each EMPLOYEENUMBER in the EMPLOYEES table along with the CITY of the associated OFFICECODE.;select EMPLOYEENUMBER, CITY from EMPLOYEES natural join OFFICES;3
+Show every CUSTOMERNUMBER in the CUSTOMERS table alone with the JOBTITLE of the associated SALESREPEMPLOYEENUMBER and the AMOUNT of the PAYMENTS rows associated with that CUSTOMERNUMBER.;select CUSTOMERNUMBER, JOBTITLE, AMOUNT from CUSTOMERS, EMPLOYEES, PAYMENTS where CUSTOMERS.SALESREPEMPLOYEENUMBER = EMPLOYEES.EMPLOYEENUMBER and CUSTOMERS.CUSTOMERNUMBER = PAYMENTS.CUSTOMERNUMBER;3
+Find which CUSTOMERNUMBER values in the CUSTOMERS table do not ever appear as CUSTOMERNUMBER value in the PAYMENTS table.;(select CUSTOMERNUMBER from CUSTOMERS) minus(select CUSTOMERNUMBER from PAYMENTS);3
+Show each CUSTOMERNUMBER in the CUSTOMERS table, but only for CUSTOMERNUMBER values that have a CREDITLIMIT that is less than the CREDITLIMIT of CUSTOMERNUMBER '1166'.;select CUSTOMERNUMBER from CUSTOMERS where CREDITLIMIT < (select CREDITLIMIT from CUSTOMERS where CUSTOMERNUMBER = '1166');3
+Show each PRODUCTVENDOR in the PRODUCTS table, but only for PRODUCTVENDOR values associated with at least one BUYPRICE that is greater than every BUYPRICE associated with PRODUCTVENDOR '????'.;select distinct PRODUCTVENDOR from PRODUCTS where BUYPRICE > (select max(BUYPRICE) from PRODUCTS where PRODUCTVENDOR = '????';3
